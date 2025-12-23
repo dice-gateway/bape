@@ -1,0 +1,1112 @@
+================================================================================
+CONTEÚDO COMPLETO DO PROJETO - 7D-bappe by stafff Admin
+================================================================================
+Data de Geração: 2025-12-23
+Total de Arquivos: 15 (excluindo .env.local bloqueado pelo gitignore)
+================================================================================
+
+================================================================================
+ARQUIVO: .gitignore
+CAMINHO: c:\Users\DELL G3\Downloads\bape\.gitignore
+LINHAS: 25
+================================================================================
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+================================================================================
+ARQUIVO: App.tsx
+CAMINHO: c:\Users\DELL G3\Downloads\bape\App.tsx
+LINHAS: 62
+================================================================================
+import React, { useState, useEffect } from 'react';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import AdminDashboard from './components/AdminDashboard';
+import CheckoutPage from './components/CheckoutPage';
+import LoginForm from './components/LoginForm';
+import { AdminSettings } from './types';
+
+const App: React.FC = () => {
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState<boolean>(() => {
+    return localStorage.getItem('admin_session') === 'true';
+  });
+
+  const [settings, setSettings] = useState<AdminSettings>(() => {
+    const saved = localStorage.getItem('app_settings');
+    return saved ? JSON.parse(saved) : { apiKey: '', adminPassword: 'admin' };
+  });
+
+  useEffect(() => {
+    localStorage.setItem('app_settings', JSON.stringify(settings));
+  }, [settings]);
+
+  const handleLogin = (password: string) => {
+    if (password === settings.adminPassword) {
+      setIsAdminAuthenticated(true);
+      localStorage.setItem('admin_session', 'true');
+      return true;
+    }
+    return false;
+  };
+
+  const handleLogout = () => {
+    setIsAdminAuthenticated(false);
+    localStorage.removeItem('admin_session');
+  };
+
+  return (
+    <HashRouter>
+      <div className="min-h-screen bg-slate-50">
+        <Routes>
+          <Route 
+            path="/admin" 
+            element={
+              isAdminAuthenticated ? (
+                <AdminDashboard 
+                  settings={settings} 
+                  setSettings={setSettings} 
+                  onLogout={handleLogout} 
+                />
+              ) : (
+                <LoginForm onLogin={handleLogin} />
+              )
+            } 
+          />
+          <Route path="/checkout/:intentId" element={<CheckoutPage settings={settings} />} />
+          <Route path="*" element={<Navigate to="/admin" replace />} />
+        </Routes>
+      </div>
+    </HashRouter>
+  );
+};
+
+export default App;
+
+================================================================================
+ARQUIVO: README.md
+CAMINHO: c:\Users\DELL G3\Downloads\bape\README.md
+LINHAS: 21
+================================================================================
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
+
+# Run and deploy your AI Studio app
+
+This contains everything you need to run your app locally.
+
+View your app in AI Studio: https://ai.studio/apps/drive/1K62ml8l7PB5Ktc-npiqS4VZkm8CZYiMf
+
+## Run Locally
+
+**Prerequisites:**  Node.js
+
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
+
+================================================================================
+ARQUIVO: index.html
+CAMINHO: c:\Users\DELL G3\Downloads\bape\index.html
+LINHAS: 33
+================================================================================
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7D-bappe by stafff</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.11.0",
+    "axios": "https://esm.sh/axios@^1.13.2"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
+
+================================================================================
+ARQUIVO: index.tsx
+CAMINHO: c:\Users\DELL G3\Downloads\bape\index.tsx
+LINHAS: 17
+================================================================================
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+const rootElement = document.getElementById('root');
+if (!rootElement) {
+  throw new Error("Could not find root element to mount to");
+}
+
+const root = ReactDOM.createRoot(rootElement);
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+
+================================================================================
+ARQUIVO: metadata.json
+CAMINHO: c:\Users\DELL G3\Downloads\bape\metadata.json
+LINHAS: 5
+================================================================================
+{
+  "name": "7D-bappe by stafff Admin",
+  "description": "Painel administrativo e checkout 7D-bappe by stafff.",
+  "requestFramePermissions": []
+}
+
+================================================================================
+ARQUIVO: package.json
+CAMINHO: c:\Users\DELL G3\Downloads\bape\package.json
+LINHAS: 24
+================================================================================
+{
+  "name": "7d-bappe-by-stafff-admin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react-dom": "^19.2.3",
+    "react": "^19.2.3",
+    "react-router-dom": "^7.11.0",
+    "axios": "^1.13.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
+  }
+}
+
+================================================================================
+ARQUIVO: tsconfig.json
+CAMINHO: c:\Users\DELL G3\Downloads\bape\tsconfig.json
+LINHAS: 29
+================================================================================
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "experimentalDecorators": true,
+    "useDefineForClassFields": false,
+    "module": "ESNext",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    },
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  }
+}
+
+================================================================================
+ARQUIVO: types.ts
+CAMINHO: c:\Users\DELL G3\Downloads\bape\types.ts
+LINHAS: 60
+================================================================================
+
+export interface PixGoCustomer {
+  customer_name?: string;
+  customer_cpf?: string;
+  customer_email?: string;
+  customer_phone?: string;
+  customer_address?: string;
+}
+
+export interface PaymentIntent {
+  id: string;
+  amount: number;
+  description: string;
+  createdAt: string;
+  status: 'pending' | 'completed' | 'expired' | 'cancelled';
+  pixgo_payment_id?: string;
+}
+
+export interface PixGoCreateRequest extends PixGoCustomer {
+  amount: number;
+  description?: string;
+  external_id?: string;
+  webhook_url?: string;
+}
+
+export interface PixGoCreateResponse {
+  success: boolean;
+  data: {
+    payment_id: string;
+    external_id: string;
+    amount: number;
+    status: string;
+    qr_code: string;
+    qr_image_url: string;
+    expires_at: string;
+    created_at: string;
+  };
+  error?: string;
+  message?: string;
+}
+
+export interface PixGoStatusResponse {
+  success: boolean;
+  data: {
+    payment_id: string;
+    external_id: string;
+    amount: number;
+    status: 'pending' | 'completed' | 'expired' | 'cancelled' | 'refunded';
+    customer_name?: string;
+    customer_cpf?: string;
+    created_at: string;
+    updated_at: string;
+  };
+}
+
+export interface AdminSettings {
+  apiKey: string;
+  adminPassword?: string;
+}
+
+================================================================================
+ARQUIVO: vite.config.ts
+CAMINHO: c:\Users\DELL G3\Downloads\bape\vite.config.ts
+LINHAS: 24
+================================================================================
+import path from 'path';
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, '.', '');
+    return {
+      server: {
+        port: 3000,
+        host: '0.0.0.0',
+      },
+      plugins: [react()],
+      define: {
+        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
+        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+      },
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '.'),
+        }
+      }
+    };
+});
+
+================================================================================
+DIRETÓRIO: components/
+CAMINHO: c:\Users\DELL G3\Downloads\bape\components
+ARQUIVOS: 3
+================================================================================
+
+================================================================================
+ARQUIVO: components/AdminDashboard.tsx
+CAMINHO: c:\Users\DELL G3\Downloads\bape\components\AdminDashboard.tsx
+LINHAS: 315
+================================================================================
+import React, { useState, useEffect } from 'react';
+import { AdminSettings, PaymentIntent } from '../types';
+import CheckoutPage from './CheckoutPage';
+
+interface AdminDashboardProps {
+  settings: AdminSettings;
+  setSettings: React.Dispatch<React.SetStateAction<AdminSettings>>;
+  onLogout: () => void;
+}
+
+const AdminDashboard: React.FC<AdminDashboardProps> = ({ settings, setSettings, onLogout }) => {
+  const [amount, setAmount] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [intents, setIntents] = useState<PaymentIntent[]>([]);
+  const [activeTab, setActiveTab] = useState<'create' | 'list' | 'settings'>('create');
+  const [copySuccess, setCopySuccess] = useState<string | null>(null);
+  
+  // State for Preview - Storing the ID directly
+  const [previewIntentId, setPreviewIntentId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('payment_intents');
+    if (saved) setIntents(JSON.parse(saved));
+  }, []);
+
+  const saveIntents = (newIntents: PaymentIntent[]) => {
+    setIntents(newIntents);
+    localStorage.setItem('payment_intents', JSON.stringify(newIntents));
+  };
+
+  const handleGenerateLink = (e: React.FormEvent) => {
+    e.preventDefault();
+    const val = parseFloat(amount);
+    if (isNaN(val) || val < 10) {
+      alert('O valor mínimo para PIX é R$ 10.00');
+      return;
+    }
+
+    const newIntent: PaymentIntent = {
+      id: Math.random().toString(36).substring(2, 15),
+      amount: val,
+      description: description || 'Pagamento PIX',
+      createdAt: new Date().toISOString(),
+      status: 'pending'
+    };
+
+    saveIntents([newIntent, ...intents]);
+    setAmount('');
+    setDescription('');
+    setActiveTab('list');
+  };
+
+  const handleCopyLink = (id: string) => {
+    const baseUrl = window.location.href.split('#')[0];
+    const url = `${baseUrl}#/checkout/${id}`;
+    navigator.clipboard.writeText(url);
+    setCopySuccess(id);
+    setTimeout(() => setCopySuccess(null), 2000);
+  };
+
+  const handleOpenPreview = (id: string) => {
+    setPreviewIntentId(id);
+  };
+
+  const deleteIntent = (id: string) => {
+    if (confirm('Deseja realmente excluir este link?')) {
+      saveIntents(intents.filter(i => i.id !== id));
+    }
+  };
+
+  return (
+    <div className="max-w-6xl mx-auto px-4 py-8">
+      <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">Painel Admin <span className="text-emerald-600">7D-bappe</span></h1>
+          <p className="text-slate-500">by stafff - Gerenciamento de links</p>
+        </div>
+        <div className="flex gap-2">
+          <button 
+            onClick={onLogout}
+            className="flex items-center gap-2 px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg transition-colors"
+          >
+            <i className="fa-solid fa-sign-out-alt"></i> Sair
+          </button>
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Navigation Sidebar */}
+        <div className="lg:col-span-1 space-y-2">
+          <button 
+            onClick={() => setActiveTab('create')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'create' ? 'bg-emerald-600 text-white shadow-lg' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
+          >
+            <i className="fa-solid fa-plus-circle"></i> Novo Link
+          </button>
+          <button 
+            onClick={() => setActiveTab('list')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'list' ? 'bg-emerald-600 text-white shadow-lg' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
+          >
+            <i className="fa-solid fa-list-ul"></i> Links Gerados
+          </button>
+          <button 
+            onClick={() => setActiveTab('settings')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${activeTab === 'settings' ? 'bg-emerald-600 text-white shadow-lg' : 'bg-white text-slate-600 hover:bg-slate-100'}`}
+          >
+            <i className="fa-solid fa-cog"></i> Configurações
+          </button>
+        </div>
+
+        {/* Content Area */}
+        <div className="lg:col-span-3 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          {activeTab === 'create' && (
+            <div className="p-8">
+              <h2 className="text-xl font-bold text-slate-800 mb-6">Criar Novo Link de Pagamento</h2>
+              {!settings.apiKey && (
+                <div className="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <i className="fa-solid fa-triangle-exclamation text-amber-400"></i>
+                    </div>
+                    <div className="ml-3">
+                      <p className="text-sm text-amber-700">
+                        Você ainda não configurou sua API Key. Vá em <strong>Configurações</strong> para começar.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              <form onSubmit={handleGenerateLink} className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Valor do Pagamento (R$)</label>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">R$</span>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="10"
+                      value={amount}
+                      onChange={(e) => setAmount(e.target.value)}
+                      className="w-full pl-12 pr-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-lg font-semibold"
+                      placeholder="0,00"
+                      required
+                    />
+                  </div>
+                  <p className="mt-1 text-xs text-slate-400">Mínimo R$ 10,00</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Descrição (Opcional)</label>
+                  <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    placeholder="Ex: Produto XYZ ou Serviço de Consultoria"
+                  />
+                </div>
+                <button
+                  disabled={!settings.apiKey}
+                  type="submit"
+                  className={`w-full py-4 rounded-xl font-bold text-lg shadow-lg transition-all ${!settings.apiKey ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700 text-white hover:scale-[1.01]'}`}
+                >
+                  Gerar Link de Checkout
+                </button>
+              </form>
+            </div>
+          )}
+
+          {activeTab === 'list' && (
+            <div className="p-8">
+              <h2 className="text-xl font-bold text-slate-800 mb-6">Histórico de Links</h2>
+              {intents.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="text-slate-200 text-6xl mb-4">
+                    <i className="fa-solid fa-link-slash"></i>
+                  </div>
+                  <p className="text-slate-500">Nenhum link gerado ainda.</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="border-b border-slate-100 text-slate-400 text-sm uppercase">
+                        <th className="pb-4 font-medium">Data</th>
+                        <th className="pb-4 font-medium">Descrição</th>
+                        <th className="pb-4 font-medium text-right">Valor</th>
+                        <th className="pb-4 font-medium text-center">Ações</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-50">
+                      {intents.map((intent) => (
+                        <tr key={intent.id} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-4 text-sm text-slate-500">{new Date(intent.createdAt).toLocaleDateString()}</td>
+                          <td className="py-4">
+                            <p className="font-semibold text-slate-700">{intent.description}</p>
+                            <p className="text-xs text-slate-400 truncate max-w-[150px]">{intent.id}</p>
+                          </td>
+                          <td className="py-4 text-right font-bold text-emerald-600">
+                            R$ {intent.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                          </td>
+                          <td className="py-4">
+                            <div className="flex justify-center gap-2">
+                              {/* Open/Test Button */}
+                              <button 
+                                onClick={() => handleOpenPreview(intent.id)}
+                                className="px-3 py-1.5 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 text-xs font-medium transition-all flex items-center gap-1"
+                                title="Testar Checkout"
+                              >
+                                <i className="fa-solid fa-mobile-screen"></i>
+                                <span className="hidden sm:inline">Testar</span>
+                              </button>
+
+                              {/* Copy Button */}
+                              <button 
+                                onClick={() => handleCopyLink(intent.id)}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all flex items-center gap-1 ${copySuccess === intent.id ? 'bg-green-100 text-green-700' : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'}`}
+                                title="Copiar Link"
+                              >
+                                <i className={`fa-solid ${copySuccess === intent.id ? 'fa-check' : 'fa-copy'}`}></i>
+                                <span className="hidden sm:inline">{copySuccess === intent.id ? 'Copiado' : 'Copiar'}</span>
+                              </button>
+
+                              {/* Delete Button */}
+                              <button 
+                                onClick={() => deleteIntent(intent.id)}
+                                className="px-3 py-1.5 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 text-xs font-medium transition-all"
+                                title="Excluir"
+                              >
+                                <i className="fa-solid fa-trash"></i>
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'settings' && (
+            <div className="p-8">
+              <h2 className="text-xl font-bold text-slate-800 mb-6">Configurações da Conta</h2>
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Chave de API (Production)</label>
+                  <input
+                    type="password"
+                    value={settings.apiKey}
+                    onChange={(e) => setSettings({ ...settings, apiKey: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono text-sm"
+                    placeholder="pk_..."
+                  />
+                  <p className="mt-2 text-xs text-slate-500">
+                    Insira a chave de produção fornecida pelo seu gateway.
+                  </p>
+                </div>
+                <div className="pt-4 border-t border-slate-100">
+                  <label className="block text-sm font-medium text-slate-700 mb-2">Senha do Painel Admin</label>
+                  <input
+                    type="text"
+                    value={settings.adminPassword}
+                    onChange={(e) => setSettings({ ...settings, adminPassword: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    placeholder="Alterar senha..."
+                  />
+                </div>
+                <div className="bg-blue-50 rounded-xl p-4 flex gap-3 text-blue-700 text-sm">
+                  <i className="fa-solid fa-info-circle mt-0.5"></i>
+                  <p>As configurações são salvas automaticamente no seu navegador.</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Component Preview Modal (Replaces Iframe) */}
+      {previewIntentId && (
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="relative w-full max-w-[400px] h-[85vh] bg-black rounded-[3rem] shadow-2xl border-4 border-slate-800 flex flex-col overflow-hidden">
+            {/* Phone Header simulation */}
+            <div className="h-8 bg-slate-900 w-full flex items-center justify-center">
+              <div className="w-20 h-4 bg-black rounded-b-xl"></div>
+            </div>
+            
+            {/* Header with Close Button */}
+            <div className="bg-slate-800 px-4 py-2 flex justify-between items-center text-white shrink-0">
+               <span className="text-xs font-mono text-slate-400">Simulador Mobile</span>
+               <button 
+                 onClick={() => setPreviewIntentId(null)} 
+                 className="w-6 h-6 rounded-full bg-slate-700 hover:bg-red-500 flex items-center justify-center transition-colors"
+               >
+                 <i className="fa-solid fa-times text-xs"></i>
+               </button>
+            </div>
+
+            {/* Component Content (Direct Render) */}
+            <div className="flex-1 bg-slate-50 relative overflow-y-auto custom-scrollbar">
+              <CheckoutPage settings={settings} previewIntentId={previewIntentId} />
+            </div>
+
+            {/* Phone Bottom simulation */}
+            <div className="h-4 bg-slate-900 w-full flex items-center justify-center shrink-0">
+               <div className="w-1/3 h-1 bg-slate-700 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AdminDashboard;
+
+================================================================================
+ARQUIVO: components/CheckoutPage.tsx
+CAMINHO: c:\Users\DELL G3\Downloads\bape\components\CheckoutPage.tsx
+LINHAS: 294
+================================================================================
+import React, { useState, useEffect, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { AdminSettings, PaymentIntent, PixGoCreateResponse } from '../types';
+import { createPixPayment, checkPaymentStatus } from '../services/pixgoService';
+
+interface CheckoutPageProps {
+  settings: AdminSettings;
+  previewIntentId?: string;
+}
+
+const CheckoutPage: React.FC<CheckoutPageProps> = ({ settings, previewIntentId }) => {
+  const params = useParams<{ intentId: string }>();
+  const navigate = useNavigate();
+  // Use previewIntentId if provided (admin preview mode), otherwise use URL params
+  const intentId = previewIntentId || params.intentId;
+
+  const [intent, setIntent] = useState<PaymentIntent | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [paymentData, setPaymentData] = useState<PixGoCreateResponse | null>(null);
+  const [paymentStatus, setPaymentStatus] = useState<string>('pending');
+  const [pollingActive, setPollingActive] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Form states - Removed address for digital products
+  const [formData, setFormData] = useState({
+    name: '',
+    cpf: '',
+    email: '',
+    phone: ''
+  });
+
+  useEffect(() => {
+    const saved = localStorage.getItem('payment_intents');
+    if (saved) {
+      const intents: PaymentIntent[] = JSON.parse(saved);
+      const found = intents.find(i => i.id === intentId);
+      if (found) {
+        setIntent(found);
+      } else {
+        setError('Link de pagamento inválido ou expirado.');
+      }
+    }
+  }, [intentId]);
+
+  const pollStatus = useCallback(async () => {
+    if (!paymentData || !settings.apiKey) return;
+    try {
+      const statusRes = await checkPaymentStatus(settings.apiKey, paymentData.data.payment_id);
+      if (statusRes.success) {
+        const currentStatus = statusRes.data.status;
+        setPaymentStatus(currentStatus);
+        if (currentStatus === 'completed' || currentStatus === 'expired' || currentStatus === 'cancelled') {
+          setPollingActive(false);
+        }
+      }
+    } catch (err) {
+      console.error('Erro ao checar status:', err);
+    }
+  }, [paymentData, settings.apiKey]);
+
+  useEffect(() => {
+    let interval: any;
+    if (pollingActive) {
+      interval = setInterval(pollStatus, 5000);
+    }
+    return () => clearInterval(interval);
+  }, [pollingActive, pollStatus]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!intent || !settings.apiKey) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await createPixPayment(settings.apiKey, {
+        amount: intent.amount,
+        description: intent.description,
+        customer_name: formData.name,
+        customer_cpf: formData.cpf.replace(/\D/g, ''),
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        external_id: intent.id
+      });
+
+      if (result.success) {
+        setPaymentData(result);
+        setPaymentStatus('pending');
+        setPollingActive(true);
+      } else {
+        setError(result.message || 'Ocorreu um erro ao gerar o PIX.');
+      }
+    } catch (err: any) {
+      setError(err.message || 'Falha na conexão com o servidor de pagamento.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCopyPixCode = () => {
+    if (paymentData?.data.qr_code) {
+      navigator.clipboard.writeText(paymentData.data.qr_code);
+      alert('Código copiado para a área de transferência!');
+    }
+  };
+
+  if (error && !paymentData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4 bg-slate-100">
+        <div className="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center">
+          <div className="text-red-500 text-5xl mb-4">
+            <i className="fa-solid fa-circle-exclamation"></i>
+          </div>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">Erro</h2>
+          <p className="text-slate-600 mb-6">{error}</p>
+          <button 
+            onClick={() => navigate('/admin')}
+            className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl transition-all"
+          >
+            Voltar ao Início
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!intent) return <div className="p-8 text-center text-slate-500">Carregando checkout...</div>;
+
+  // -- RENDER: PAYMENT RESULT (Clean View) --
+  if (paymentData) {
+    return (
+      <div className="min-h-screen py-8 px-4 bg-slate-50 flex justify-center items-center">
+        <div className="w-full max-w-[380px] bg-white rounded-3xl p-6 relative shadow-xl text-center">
+          
+          {/* Amount Display */}
+          <div className="mb-8 mt-4">
+             <p className="text-sm text-slate-400 font-medium uppercase tracking-wider mb-1">Total a Pagar</p>
+             <h2 className="text-3xl font-black text-slate-800">
+               R$ {intent.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+             </h2>
+          </div>
+
+          {paymentStatus === 'completed' ? (
+             <div className="bg-green-50 text-green-800 p-6 rounded-2xl font-bold mb-6 flex flex-col items-center animate-in fade-in zoom-in">
+               <i className="fa-solid fa-circle-check text-4xl mb-3 text-green-500"></i>
+               <span>Pagamento Confirmado!</span>
+             </div>
+          ) : paymentStatus === 'expired' ? (
+             <div className="bg-red-50 text-red-800 p-6 rounded-2xl font-bold mb-6 flex flex-col items-center">
+               <i className="fa-solid fa-circle-xmark text-4xl mb-3 text-red-500"></i>
+               <span>Pagamento Expirado</span>
+             </div>
+          ) : (
+            <>
+              {/* Copy Paste Section */}
+              <div className="text-left mb-6">
+                <div className="relative group">
+                    <label className="absolute -top-3 left-3 bg-white px-2 text-xs font-bold text-emerald-600">
+                      Código Pix Copia e Cola
+                    </label>
+                    <textarea 
+                      readOnly 
+                      value={paymentData.data.qr_code}
+                      className="w-full h-32 bg-slate-50 border-2 border-slate-200 rounded-2xl p-4 text-xs text-slate-600 font-mono resize-none focus:outline-none focus:border-emerald-500 transition-colors"
+                    />
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                 <button
+                   onClick={handleCopyPixCode}
+                   className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-emerald-200/50 transition-all active:scale-[0.98] flex items-center justify-center gap-2"
+                 >
+                   <i className="fa-regular fa-copy"></i> Copiar Código Pix
+                 </button>
+
+                 <div className="flex items-center justify-center gap-2 text-slate-400 text-xs py-2">
+                   <i className="fa-solid fa-circle-notch fa-spin"></i> Aguardando confirmação automática...
+                 </div>
+              </div>
+            </>
+          )}
+
+        </div>
+      </div>
+    );
+  }
+
+  // -- RENDER: INPUT FORM (Initial Step) --
+  return (
+    <div className="min-h-screen py-10 px-4 bg-slate-100 flex items-center justify-center">
+      <div className="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
+        
+        {/* Checkout Header */}
+        <div className="bg-slate-900 px-8 py-6 flex justify-between items-center">
+           <div>
+              <h2 className="text-white font-bold text-lg">Checkout Seguro</h2>
+              <p className="text-slate-400 text-sm">Finalize sua compra</p>
+           </div>
+           <div className="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white">
+              <i className="fa-solid fa-lock"></i>
+           </div>
+        </div>
+
+        <div className="p-8">
+          {/* Product Summary */}
+          <div className="flex justify-between items-center mb-8 pb-6 border-b border-slate-100">
+             <div>
+               <p className="text-xs text-slate-400 uppercase font-bold tracking-wider">Produto</p>
+               <p className="text-slate-800 font-medium text-lg">{intent.description}</p>
+             </div>
+             <div className="text-right">
+               <p className="text-xs text-slate-400 uppercase font-bold tracking-wider">Valor</p>
+               <p className="text-emerald-600 font-bold text-xl">R$ {intent.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+             </div>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Nome Completo</label>
+              <input
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                placeholder="Digite seu nome"
+              />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">CPF</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.cpf}
+                  onChange={(e) => setFormData({...formData, cpf: e.target.value})}
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder="000.000.000-00"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Telefone</label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                  className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  placeholder="(11) 99999-9999"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">E-mail</label>
+              <input
+                type="email"
+                required
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                placeholder="seu@email.com"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full mt-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+            >
+              {loading ? (
+                <>
+                   <i className="fa-solid fa-circle-notch fa-spin"></i> Processando...
+                </>
+              ) : (
+                <>
+                   <span>Pagar com Pix</span> <i className="fa-brands fa-pix"></i>
+                </>
+              )}
+            </button>
+          </form>
+
+          <p className="text-center text-xs text-slate-400 mt-6 flex items-center justify-center gap-2">
+            <i className="fa-solid fa-shield-halved"></i> Seus dados estão protegidos
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CheckoutPage;
+
+================================================================================
+ARQUIVO: components/LoginForm.tsx
+CAMINHO: c:\Users\DELL G3\Downloads\bape\components\LoginForm.tsx
+LINHAS: 62
+================================================================================
+import React, { useState } from 'react';
+
+interface LoginFormProps {
+  onLogin: (password: string) => boolean;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onLogin }) => {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onLogin(password)) {
+      setError('');
+    } else {
+      setError('Senha administrativa incorreta.');
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen p-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-slate-100">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full mb-4">
+            <i className="fa-solid fa-lock text-2xl"></i>
+          </div>
+          <h1 className="text-2xl font-bold text-slate-800">Acesso Restrito</h1>
+          <p className="text-slate-500 mt-2">7D-bappe by stafff</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1">Senha de Admin</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+              placeholder="Digite a senha..."
+              required
+            />
+          </div>
+          
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <button
+            type="submit"
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg shadow-md hover:shadow-lg transition-all"
+          >
+            Entrar no Painel
+          </button>
+        </form>
+        
+        <p className="mt-6 text-center text-xs text-slate-400">
+          Dica: A senha padrão é "admin".
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default LoginForm;
+
+================================================================================
+DIRETÓRIO: services/
+CAMINHO: c:\Users\DELL G3\Downloads\bape\services
+ARQUIVOS: 1
+================================================================================
+
+================================================================================
+ARQUIVO: services/pixgoService.ts
+CAMINHO: c:\Users\DELL G3\Downloads\bape\services\pixgoService.ts
+LINHAS: 39
+================================================================================
+import axios from 'axios';
+import { PixGoCreateRequest, PixGoCreateResponse, PixGoStatusResponse } from '../types';
+
+const BASE_URL = 'https://pixgo.org/api/v1';
+
+export const createPixPayment = async (apiKey: string, data: PixGoCreateRequest): Promise<PixGoCreateResponse> => {
+  try {
+    const response = await axios.post(`${BASE_URL}/payment/create`, data, {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-API-Key': apiKey,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      return error.response.data;
+    }
+    throw new Error(error.message || 'Erro ao conectar com servidor de pagamento');
+  }
+};
+
+export const checkPaymentStatus = async (apiKey: string, paymentId: string): Promise<PixGoStatusResponse> => {
+  const response = await axios.get(`${BASE_URL}/payment/${paymentId}/status`, {
+    headers: {
+      'X-API-Key': apiKey,
+    },
+  });
+  return response.data;
+};
+
+export const getPaymentDetails = async (apiKey: string, paymentId: string): Promise<PixGoStatusResponse> => {
+  const response = await axios.get(`${BASE_URL}/payment/${paymentId}`, {
+    headers: {
+      'X-API-Key': apiKey,
+    },
+  });
+  return response.data;
+};
+
+================================================================================
+FIM DO ARQUIVO DE CONTEÚDO COMPLETO
+================================================================================
+NOTA: O arquivo .env.local foi excluído desta listagem pois está bloqueado pelo .gitignore
+================================================================================
