@@ -72,7 +72,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ settings, setSettings, 
     <div className="max-w-6xl mx-auto px-4 py-8">
       <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">Painel Admin <span className="text-emerald-600">7D-bappe</span></h1>
+          <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight"><span className="text-emerald-600">7D-bappe</span></h1>
           <p className="text-slate-500">by stafff - Gerenciamento de links</p>
         </div>
         <div className="flex gap-2">
