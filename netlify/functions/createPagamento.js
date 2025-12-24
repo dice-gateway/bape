@@ -46,14 +46,4 @@ exports.handler = async (event, context) => {
     await client.close();
   }
 };
-```**Atenção:** Lembre-se de trocar `'nome_do_seu_banco'` e `'pagamentos'` pelos nomes corretos do seu MongoDB Atlas.
 
-**2. Verifique o Arquivo `netlify.toml`**
-
-Garanta que na raiz do seu projeto (`bape`) existe o arquivo `netlify.toml` com o seguinte conteúdo. Ele diz à Netlify onde encontrar a pasta de funções.
-
-```toml
-# ARQUIVO: netlify.toml
-
-[functions]
-  directory = "netlify/functions/"
